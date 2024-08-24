@@ -8,15 +8,19 @@ import Typography from '@mui/material/Typography';
 import { ArrowDown as ArrowDownIcon } from '@phosphor-icons/react/dist/ssr/ArrowDown';
 import { ArrowUp as ArrowUpIcon } from '@phosphor-icons/react/dist/ssr/ArrowUp';
 import { CurrencyDollar as CurrencyDollarIcon } from '@phosphor-icons/react/dist/ssr/CurrencyDollar';
+import { Receipt as ReceiptIcon } from '@phosphor-icons/react/dist/ssr/Receipt';
 
 export interface BudgetProps {
+  header?: string,
+  subtext?: string,
   diff?: number;
   trend: 'up' | 'down';
   sx?: SxProps;
   value: string;
+  icon: string
 }
 
-export function Budget({ diff, trend, sx, value }: BudgetProps): React.JSX.Element {
+export function Budget({ header, subtext, diff, trend, sx, value, icon }: BudgetProps): React.JSX.Element {
   const TrendIcon = trend === 'up' ? ArrowUpIcon : ArrowDownIcon;
   const trendColor = trend === 'up' ? 'var(--mui-palette-success-main)' : 'var(--mui-palette-error-main)';
 
@@ -27,12 +31,17 @@ export function Budget({ diff, trend, sx, value }: BudgetProps): React.JSX.Eleme
           <Stack direction="row" sx={{ alignItems: 'flex-start', justifyContent: 'space-between' }} spacing={3}>
             <Stack spacing={1}>
               <Typography color="text.secondary" variant="overline">
-                Budget
+                {header ? header : "Budget"}
               </Typography>
               <Typography variant="h4">{value}</Typography>
             </Stack>
-            <Avatar sx={{ backgroundColor: 'var(--mui-palette-primary-main)', height: '56px', width: '56px' }}>
-              <CurrencyDollarIcon fontSize="var(--icon-fontSize-lg)" />
+            <Avatar sx={{ backgroundColor: icon === "dollar" ? 'var(--mui-palette-primary-main)' : 'var(--mui-palette-success-main)', height: '56px', width: '56px' }}>
+              {icon === "dollar"
+              ?
+                <CurrencyDollarIcon fontSize="var(--icon-fontSize-lg)" />
+              :
+                <ReceiptIcon fontSize="var(--icon-fontSize-lg)" />
+              }
             </Avatar>
           </Stack>
           {diff ? (
@@ -44,10 +53,15 @@ export function Budget({ diff, trend, sx, value }: BudgetProps): React.JSX.Eleme
                 </Typography>
               </Stack>
               <Typography color="text.secondary" variant="caption">
-                Since last month
+                {subtext ? subtext : "Since last month"}
               </Typography>
             </Stack>
-          ) : null}
+          ) 
+          : 
+          <Typography color="text.secondary" variant="caption">
+            {subtext ? subtext : "Since last month"}
+          </Typography>
+          }
         </Stack>
       </CardContent>
     </Card>
