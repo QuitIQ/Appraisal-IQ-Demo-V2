@@ -11,6 +11,12 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 
+import { config } from '@/config';
+
+export const metadata = {
+  title: `Projects | Dashboard | ${config.site.name}`,
+};
+
 export default function Layout({ children }: LayoutProps): React.JSX.Element {
   return (
     <AuthGuard>

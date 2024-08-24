@@ -1,20 +1,12 @@
 "use client";
 import * as React from 'react';
-import type { Metadata } from 'next';
 import Grid from '@mui/material/Unstable_Grid2';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
-import dayjs from 'dayjs';
-import { setItem, getItem, removeItem, clearStorage } from "@/util/useLocalStorage";
-
-import { config } from '@/config';
+import { setItem, getItem } from "@/util/useLocalStorage";
 
 import AppraisalCard from "@/components/dashboard/overview/appraisalcard"
 import PopupForm from "@/components/dashboard/overview/popupform";
-
-
-
-// export const metadata = { title: `Overview | Dashboard | ${config.site.name}` } satisfies Metadata;
 
 const cardData = {
   "714 Steiner St": {
