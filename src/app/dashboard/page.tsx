@@ -10,11 +10,6 @@ import AppraisalCard from "@/components/dashboard/overview/appraisalcard"
 import PopupForm from "@/components/dashboard/overview/popupform";
 
 const cardData = {
-  "714 Steiner St": {
-      projectTitle:"714 Steiner St",
-      address: "714 Steiner St, San Francisco, CA 94117",
-      image: "/assets/house.jpg"
-    },
     "123 Main St": {
     projectTitle:"123 Main St",
     address: "123 Main St, Los Angeles, CA 90012",

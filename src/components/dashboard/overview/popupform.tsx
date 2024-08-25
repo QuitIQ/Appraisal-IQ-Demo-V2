@@ -31,7 +31,7 @@ export default function PopupForm({ open, handleClose, onDataUpdate }: PopupForm
   const [image, setImage] = React.useState<File | null>(null);
   const [loading, setLoading] = React.useState<boolean>(false); // Spinner state
   const router = useRouter();
-  
+
   const handleToggleChange = (
     event: React.MouseEvent<HTMLElement>,
     newAlignment: string | null
@@ -110,6 +110,7 @@ export default function PopupForm({ open, handleClose, onDataUpdate }: PopupForm
       setLoading(false); // Hide spinner after 5 seconds
 
       handleClose();
+      setItem("selected", title)
       router.push('/dashboard/project');
     }, 5000); // Simulate a delay of 5 seconds
   };

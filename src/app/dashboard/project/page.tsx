@@ -47,10 +47,10 @@ export default function Page(): React.JSX.Element {
       </div>
       <Grid container spacing={3}>
         <Grid lg={3} sm={6} xs={12}>
-          <Budget header="Estimated Value" subtext="Since last sale" diff={25} trend="up" sx={{ height: '100%' }} value="$1.5M" icon="dollar" />
+          <Budget header="Estimated Value" subtext="Since last sale" diff={7} trend="up" sx={{ height: '100%' }} value="$3.0M" icon="dollar" />
         </Grid>
         <Grid lg={3} sm={6} xs={12}>
-          <Budget header="Previous Sale" subtext="November 2022" trend="down" sx={{ height: '100%' }} value="$1.2M" icon="receipt" />
+          <Budget header="Previous Sale" subtext="November 2022" trend="down" sx={{ height: '100%' }} value="$2.8M" icon="receipt" />
         </Grid>
         <Grid lg={3} sm={6} xs={12}>
           <TasksProgress sx={{ height: '100%' }} value="5 / 3.5" />
@@ -74,36 +74,36 @@ export default function Page(): React.JSX.Element {
                 <SimilarProperty 
                   sx={{ height: '100%' }}
                   imageFile="mansion1.jpeg"
-                  title="123 Elm St"
-                  price={18000000}
-                  bedrooms={5}
-                  bathrooms={3.5}
+                  title="720 Steiner St"
+                  price={3200000}
+                  bedrooms={4}
+                  bathrooms={3}
                   age={2}
-                  sqft={10500}
+                  sqft={3200}
                 />
               </Grid>
               <Grid lg={4} onClick={() => handleCardClick('/assets/sample.pdf')}>
                 <SimilarProperty 
                   sx={{ height: '100%' }}
                   imageFile="mansion2.jpeg"
-                  title="562 King St"
-                  price={17500000}
-                  bedrooms={6}
-                  bathrooms={3}
+                  title="700 Broderick St"
+                  price={2950000}
+                  bedrooms={4}
+                  bathrooms={2}
                   age={6}
-                  sqft={9000}
+                  sqft={3100}
                 />
               </Grid>
               <Grid lg={4} onClick={() => handleCardClick('/assets/sample.pdf')}>
                 <SimilarProperty 
                   sx={{ height: '100%' }}
                   imageFile="mansion3.jpeg"
-                  title="444 Villa St"
-                  price={20000000}
-                  bedrooms={6}
-                  bathrooms={6}
+                  title="800 Hayes St"
+                  price={3050000}
+                  bedrooms={4}
+                  bathrooms={3}
                   age={8}
-                  sqft={11000}
+                  sqft={3125}
                 />
               </Grid>
             </Grid>
@@ -114,17 +114,16 @@ export default function Page(): React.JSX.Element {
       {/* PDF Preview in a Material-UI Card */}
 
       <Card sx={{ marginTop: '20px', padding: '5px', width: '100%' }} onClick={() => handleCardClick('/assets/generated_appraisal_report.pdf')}>
-  <CardContent>
-    <Typography variant="h6">Report Generated</Typography>
-    <div style={{ marginTop: '10px', height: '400px', width: '100%', overflowY: 'scroll'}}>
-      <Document file='/assets/generated_appraisal_report.pdf' onLoadError={console.error}>
-        <PDFPage pageNumber={1} scale={0.7} width={document.body.clientWidth} renderMode="canvas" />
-        {/* Add additional pages here if needed */}
-      </Document>
-    </div>
-  </CardContent>
-</Card>
-
-    </div>
+      <CardContent>
+        <Typography variant="h6">Report Generated</Typography>
+        <div style={{ marginTop: '10px', height: '400px', width: '100%', overflowY: 'scroll'}}>
+          <Document file='/assets/generated_appraisal_report.pdf' onLoadError={console.error}>
+            <PDFPage pageNumber={1} scale={0.7} width={document.body.clientWidth} renderMode="canvas" />
+            {/* Add additional pages here if needed */}
+          </Document>
+        </div>
+      </CardContent>
+    </Card>
+  </div>
   );
 }
