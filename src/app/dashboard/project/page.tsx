@@ -1,5 +1,5 @@
+"use client";
 import * as React from 'react';
-import type { Metadata } from 'next';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
@@ -10,14 +10,24 @@ import { Sales } from '@/components/dashboard/overview/sales';
 import { SimilarProperty } from '@/components/dashboard/overview/similarProperty';
 import { TasksProgress } from '@/components/dashboard/overview/tasks-progress';
 import { TotalProfit } from '@/components/dashboard/overview/total-profit';
-
-export const metadata = { title: `Overview | Dashboard | ${config.site.name}` } satisfies Metadata;
+import { getItem } from "@/util/useLocalStorage";
 
 export default function Page(): React.JSX.Element {
+  const [projectName, setProjectName] = React.useState<string>("");
+
+  // Load the initial data from local storage when the component mounts
+  React.useEffect(() => {
+    const projectName = getItem('selected');
+
+    if (projectName) {
+      setProjectName(projectName)
+    }
+  }, []);
+
   return (
     <div>
       <div style={{paddingBottom: "15px"}}>
-        <Typography variant="h4">714 Steiner St</Typography>
+        <Typography variant="h4">{projectName}</Typography>
       </div>
       <Grid container spacing={3}>
         <Grid lg={3} sm={6} xs={12}>

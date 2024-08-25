@@ -68,7 +68,7 @@ export default function Page(): React.JSX.Element {
       <Grid container spacing={3}>
         {storedMap && Object.entries(storedMap).map(([key, value], index) => (
           <Grid key={index} lg={3} sm={6} xs={12}>
-            <AppraisalCard title={value.projectTitle} address={value.address} image={value.image} />
+            <AppraisalCard title={key} address={value.address} image={value.image} />
           </Grid>
         ))}
       </Grid>
