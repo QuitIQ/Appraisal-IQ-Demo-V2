@@ -3,6 +3,7 @@ import * as React from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
+import Typography from '@mui/material/Typography';
 import { setItem, getItem } from "@/util/useLocalStorage";
 
 import AppraisalCard from "@/components/dashboard/overview/appraisalcard"
@@ -59,7 +60,8 @@ export default function Page(): React.JSX.Element {
 
   return (
     <div style={{ position: 'relative', flex: 1, display: 'flex', flexDirection: 'column' }}>
-      <div style={{width: '100%', display: 'flex', justifyContent: 'flex-end', zIndex: 1, paddingBottom: "10px"}}>
+      <Typography variant="h4">Projects</Typography>
+      <div style={{width: '100%', display: 'flex', justifyContent: 'flex-end', zIndex: 1, paddingBottom: "20px"}}>
         <Fab color="primary" aria-label="add" onClick={handleClickOpen}>
           <AddIcon />
         </Fab>

@@ -35,10 +35,12 @@
     "dayjs": "1.11.11",
     "formidable": "^3.5.1",
     "next": "14.2.4",
+    "pdfjs-dist": "^4.4.168",
     "react": "18.3.1",
     "react-apexcharts": "1.4.1",
     "react-dom": "18.3.1",
     "react-hook-form": "7.52.0",
+    "react-pdf": "^9.1.0",
     "zod": "3.23.8"
   },
   "devDependencies": {

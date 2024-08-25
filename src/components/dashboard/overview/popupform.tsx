@@ -8,7 +8,9 @@ import TextField from '@mui/material/TextField';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Typography from '@mui/material/Typography';
+import CircularProgress from '@mui/material/CircularProgress';
 import { setItem, getItem } from "@/util/useLocalStorage";
+import { useRouter } from 'next/navigation';
 
 type PopupFormProps = {
   open: boolean;
@@ -27,7 +29,9 @@ export default function PopupForm({ open, handleClose, onDataUpdate }: PopupForm
   const [sqft, setSqft] = React.useState<string>('');
   const [age, setAge] = React.useState<string>('');
   const [image, setImage] = React.useState<File | null>(null);
-
+  const [loading, setLoading] = React.useState<boolean>(false); // Spinner state
+  const router = useRouter();
+  
   const handleToggleChange = (
     event: React.MouseEvent<HTMLElement>,
     newAlignment: string | null
@@ -55,53 +59,59 @@ export default function PopupForm({ open, handleClose, onDataUpdate }: PopupForm
   };
 
   const handleSave = async () => {
-    let imagePath = '';
+    setLoading(true); // Show spinner
+    setTimeout(async () => {
+      let imagePath = '';
 
-    if (image) {
-      const formData = new FormData();
-      formData.append('file', image);
+      if (image) {
+        const formData = new FormData();
+        formData.append('file', image);
 
-      // Upload the image to the backend
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
+        // Upload the image to the backend
+        const response = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+        });
 
-      if (response.ok) {
-        const result = await response.json();
-        imagePath = result.filePath; // Get the file path from the server response
-      } else {
-        console.error('Failed to upload the image');
+        if (response.ok) {
+          const result = await response.json();
+          imagePath = result.filePath; // Get the file path from the server response
+        } else {
+          console.error('Failed to upload the image');
+        }
       }
-    }
 
-    const formDataObj = {
-      title,
-      address,
-      bedrooms,
-      bathrooms,
-      sqft,
-      age,
-      occupant: alignment,
-      condition,
-      location,
-      image: imagePath, // Store the image path
-    };
+      const formDataObj = {
+        title,
+        address,
+        bedrooms,
+        bathrooms,
+        sqft,
+        age,
+        occupant: alignment,
+        condition,
+        location,
+        image: imagePath, // Store the image path
+      };
 
-    // Get existing data from localStorage
-    const existingData = getItem('appraisalData') || {};
+      // Get existing data from localStorage
+      const existingData = getItem('appraisalData') || {};
 
-    // Add the new formData as a new entry using the title as the key
-    const updatedData = { ...existingData, [title]: formDataObj };
+      // Add the new formData as a new entry using the title as the key
+      const updatedData = { ...existingData, [title]: formDataObj };
 
-    // Save the updated data back to localStorage
-    setItem('appraisalData', updatedData);
+      // Save the updated data back to localStorage
+      setItem('appraisalData', updatedData);
 
-    // Notify the parent component of the data update
-    onDataUpdate();
+      // Notify the parent component of the data update
+      onDataUpdate();
 
-    // Close the form
-    handleClose();
+      // Close the form
+      setLoading(false); // Hide spinner after 5 seconds
+
+      handleClose();
+      router.push('/dashboard/project');
+    }, 5000); // Simulate a delay of 5 seconds
   };
 
   return (
@@ -247,7 +257,9 @@ export default function PopupForm({ open, handleClose, onDataUpdate }: PopupForm
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleSave}>Add</Button>
+        <Button onClick={handleSave} disabled={loading}>
+          {loading ? <CircularProgress size={24} /> : 'Add'}
+        </Button>
       </DialogActions>
     </Dialog>
   );

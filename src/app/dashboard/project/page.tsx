@@ -3,6 +3,10 @@ import * as React from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import { Document, Page as PDFPage, pdfjs } from 'react-pdf';
+
+
 
 import { config } from '@/config';
 import { Budget } from '@/components/dashboard/overview/budget';
@@ -12,21 +16,33 @@ import { TasksProgress } from '@/components/dashboard/overview/tasks-progress';
 import { TotalProfit } from '@/components/dashboard/overview/total-profit';
 import { getItem } from "@/util/useLocalStorage";
 
+pdfjs.GlobalWorkerOptions.workerSrc = '/assets/pdf.worker.mjs';
+
 export default function Page(): React.JSX.Element {
   const [projectName, setProjectName] = React.useState<string>("");
+  const [pdfFile, setPdfFile] = React.useState<string | null>(null);
 
   // Load the initial data from local storage when the component mounts
   React.useEffect(() => {
     const projectName = getItem('selected');
 
     if (projectName) {
-      setProjectName(projectName)
+      setProjectName(projectName);
     }
+
+    // For demonstration, set a PDF file (you can replace this with the actual PDF file path)
+    setPdfFile('/assets/generated_appraisal_report.pdf'); // Replace this with the actual PDF file path
   }, []);
+
+  const handleCardClick = (pdfUrl: string | null) => {
+    if (pdfUrl) {
+      window.open(pdfUrl, "_blank");
+    }
+  };
 
   return (
     <div>
-      <div style={{paddingBottom: "15px"}}>
+      <div style={{ paddingBottom: "15px" }}>
         <Typography variant="h4">{projectName}</Typography>
       </div>
       <Grid container spacing={3}>
@@ -54,7 +70,7 @@ export default function Page(): React.JSX.Element {
           <Card sx={{ padding: '20px' }}>
             <Typography variant="h5" sx={{ paddingBottom: '20px' }}>Similar Properties</Typography>
             <Grid container spacing={3}>
-              <Grid lg={4}>
+              <Grid lg={4} onClick={() => handleCardClick('/assets/sample.pdf')}>
                 <SimilarProperty 
                   sx={{ height: '100%' }}
                   imageFile="mansion1.jpeg"
@@ -66,7 +82,7 @@ export default function Page(): React.JSX.Element {
                   sqft={10500}
                 />
               </Grid>
-              <Grid lg={4}>
+              <Grid lg={4} onClick={() => handleCardClick('/assets/sample.pdf')}>
                 <SimilarProperty 
                   sx={{ height: '100%' }}
                   imageFile="mansion2.jpeg"
@@ -78,7 +94,7 @@ export default function Page(): React.JSX.Element {
                   sqft={9000}
                 />
               </Grid>
-              <Grid lg={4}>
+              <Grid lg={4} onClick={() => handleCardClick('/assets/sample.pdf')}>
                 <SimilarProperty 
                   sx={{ height: '100%' }}
                   imageFile="mansion3.jpeg"
@@ -94,6 +110,21 @@ export default function Page(): React.JSX.Element {
           </Card>
         </Grid>
       </Grid>
+
+      {/* PDF Preview in a Material-UI Card */}
+
+      <Card sx={{ marginTop: '20px', padding: '5px', width: '100%' }} onClick={() => handleCardClick('/assets/generated_appraisal_report.pdf')}>
+  <CardContent>
+    <Typography variant="h6">Report Generated</Typography>
+    <div style={{ marginTop: '10px', height: '400px', width: '100%', overflowY: 'scroll'}}>
+      <Document file='/assets/generated_appraisal_report.pdf' onLoadError={console.error}>
+        <PDFPage pageNumber={1} scale={0.7} width={document.body.clientWidth} renderMode="canvas" />
+        {/* Add additional pages here if needed */}
+      </Document>
+    </div>
+  </CardContent>
+</Card>
+
     </div>
   );
 }
